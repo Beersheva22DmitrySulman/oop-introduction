@@ -13,7 +13,7 @@ public class SquareTriangle extends Square {
 		int size = getWidth();
 		String[] lines = new String[size];
 		lines[size - 1] = getLine(offset);
-		int verticalLineIndex = (isLeftDiagonal ? 0 : size - 1);
+		int verticalLineIndex = isLeftDiagonal ? 0 : size - 1;
 		for (int i = 0; i < size - 1; i++) {
 			lines[i] = getOffset(offset) + String.valueOf(getMiddleLine(i, verticalLineIndex));
 		}
@@ -23,7 +23,7 @@ public class SquareTriangle extends Square {
 	private char[] getMiddleLine(int index, int verticalLineIndex) {
 		int size = getWidth();
 		char[] line = getClearLine();
-		int diagonalLineIndex = (isLeftDiagonal ? index : size - 1 - index);
+		int diagonalLineIndex = isLeftDiagonal ? index : size - 1 - index;
 		line[verticalLineIndex] = getSymbol().charAt(0);
 		line[diagonalLineIndex] = getSymbol().charAt(0);
 		return line;
