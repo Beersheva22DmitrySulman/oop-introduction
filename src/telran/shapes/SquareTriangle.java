@@ -12,33 +12,28 @@ public class SquareTriangle extends Square {
 	public String[] presentation(int offset) {
 		int size = getWidth();
 		String[] lines = new String[size];
-		int verticalLine = (isLeftDiagonal ? 0 : size - 1) + offset;
+		lines[size - 1] = getLine(offset);
+		int verticalLineIndex = (isLeftDiagonal ? 0 : size - 1);
 		for (int i = 0; i < size - 1; i++) {
-			char[] line = clearLine(size, offset);
-			int diagonalLine = (isLeftDiagonal ? i : size - 1 - i) + offset;
-			line[verticalLine] = getSymbol().charAt(0);
-			line[diagonalLine] = getSymbol().charAt(0);
-			lines[i] = new String(line);
+			lines[i] = getOffset(offset) + String.valueOf(getMiddleLine(i, verticalLineIndex));
 		}
-		lines[size - 1] = new String(line(size, offset));
 		return lines;
 	}
-	
-	private char[] clearLine(int size, int offset) {
-		char[] res = new char[size + offset];
-		for (int i = 0; i < size + offset; i++) {
-			res[i] = ' ';
-		}
-		return res;
+
+	private char[] getMiddleLine(int index, int verticalLineIndex) {
+		int size = getWidth();
+		char[] line = getClearLine();
+		int diagonalLineIndex = (isLeftDiagonal ? index : size - 1 - index);
+		line[verticalLineIndex] = getSymbol().charAt(0);
+		line[diagonalLineIndex] = getSymbol().charAt(0);
+		return line;
 	}
 	
-	private char[] line(int size, int offset) {
-		char[] res = new char[size + offset];
-		for (int i = 0; i < offset; i++) {
+	private char[] getClearLine() {
+		int size = getWidth();
+		char[] res = new char[size];
+		for (int i = 0; i < size; i++) {
 			res[i] = ' ';
-		}
-		for (int i = offset; i < size + offset; i++) {
-			res[i] = getSymbol().charAt(0);
 		}
 		return res;
 	}

@@ -29,11 +29,11 @@ public class Rectangle {
 		return getOffset(offset) + symbol + getOffset(width - 2) + symbol;
 	}
 
-	private String getLine(int offset) {
+	protected String getLine(int offset) {
 		return getOffset(offset) + symbol.repeat(width);
 	}
 
-	private String getOffset(int offset) {
+	protected String getOffset(int offset) {
 		return " ".repeat(offset);
 	}
 
