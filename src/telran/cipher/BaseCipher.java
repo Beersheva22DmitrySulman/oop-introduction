@@ -34,7 +34,11 @@ public class BaseCipher {
 		int base = key.length();
 		int res = 0;
 		for (int i = 0; i < cipherLength; i++) {
-			res = res * base + key.indexOf(cipher.charAt(i));
+			int digit = key.indexOf(cipher.charAt(i));
+			if (digit == -1) {
+				throw new IllegalArgumentException();
+			}
+			res = res * base + digit;
 		}
 		
 		return res;
