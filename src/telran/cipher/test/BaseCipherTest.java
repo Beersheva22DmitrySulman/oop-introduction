@@ -18,7 +18,11 @@ class BaseCipherTest {
 			BaseCipher cipher = new BaseCipher(random.nextInt(2, 95));
 			int number = random.nextInt(0, Integer.MAX_VALUE);
 			String numberEncoded = cipher.cipher(number);
-			System.out.printf("Key length: %d, key: %s, number: %d, number encoded: %s\n", cipher.getKey().length(), cipher.getKey(), number, numberEncoded);
+			System.out.printf("Key length: %d, key: %s, number: %d, number encoded: %s\n", 
+					cipher.getKey().length(), 
+					cipher.getKey(), 
+					number, 
+					numberEncoded);
 			assertEquals(number, cipher.decipher(numberEncoded));
 		}
 	}
