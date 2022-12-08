@@ -37,4 +37,8 @@ public class SquareTriangle extends Square {
 		}
 		return res;
 	}
+
+	public boolean isLeftDiagonal() {
+		return isLeftDiagonal;
+	}
 }
