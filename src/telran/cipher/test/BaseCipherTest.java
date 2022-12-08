@@ -26,7 +26,13 @@ class BaseCipherTest {
 			assertEquals(number, cipher.decipher(numberEncoded));
 		}
 		
-		//test min/max length
+		// test zero number
+		BaseCipher cipher = new BaseCipher(random.nextInt(2, 95));
+		int number = 0;
+		String numberEncoded = cipher.cipher(number);
+		assertEquals(number, cipher.decipher(numberEncoded));
+		
+		// test min/max length
 		BaseCipher cipher1 = new BaseCipher(1000);
 		assertEquals(94, cipher1.getKey().length());
 		BaseCipher cipher2 = new BaseCipher(0);
