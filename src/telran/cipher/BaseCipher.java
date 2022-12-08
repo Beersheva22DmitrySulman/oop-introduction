@@ -9,7 +9,7 @@ public class BaseCipher {
 	private static final int MAX_CODE = 126;
 	
 	private static final int MIN_LENGTH = 2;
-	private static final int MAX_LENGTH = 94;
+	private static final int MAX_LENGTH = MAX_CODE - MIN_CODE + 1;
 	
 	public BaseCipher(int length) {
 		length = Math.max(length, MIN_LENGTH);
