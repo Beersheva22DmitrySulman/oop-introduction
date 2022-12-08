@@ -36,6 +36,7 @@ public class BaseCipher {
 		for (int i = 0; i < cipherLength; i++) {
 			res = res * keyLength + key.indexOf(cipher.charAt(i));
 		}
+		
 		return res;
 	}
 
