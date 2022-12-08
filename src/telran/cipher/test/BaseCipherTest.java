@@ -30,6 +30,11 @@ class BaseCipherTest {
 		BaseCipher cipher = new BaseCipher(random.nextInt(2, 95));
 		int number = 0;
 		String numberEncoded = cipher.cipher(number);
+		System.out.printf("Key length: %d, key: %s, number: %d, number encoded: %s\n", 
+				cipher.getKey().length(), 
+				cipher.getKey(), 
+				number, 
+				numberEncoded);
 		assertEquals(number, cipher.decipher(numberEncoded));
 		
 		// test min/max key length
