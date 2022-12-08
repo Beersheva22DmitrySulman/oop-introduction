@@ -18,6 +18,9 @@ public class BaseCipher {
 	}
 
 	public String cipher(int number) {
+		if (number < 0) {
+			throw new IllegalArgumentException("Number should be non-negative.");
+		}
 		int numberLength = getNumberLength(number);
 		int base = key.length();
 		char[] charArray = new char[numberLength];
