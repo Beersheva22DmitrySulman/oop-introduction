@@ -25,5 +25,11 @@ class BaseCipherTest {
 					numberEncoded);
 			assertEquals(number, cipher.decipher(numberEncoded));
 		}
+		
+		//test min/max length
+		BaseCipher cipher1 = new BaseCipher(1000);
+		assertEquals(94, cipher1.getKey().length());
+		BaseCipher cipher2 = new BaseCipher(0);
+		assertEquals(2, cipher2.getKey().length());
 	}
 }
