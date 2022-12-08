@@ -44,17 +44,6 @@ public class BaseCipher {
 		return key;
 	}
 	
-	private int getNumberLength(int number) {
-		int keyLength = key.length();
-		int res = 0;
-		do {
-			number /= keyLength;
-			res++;
-		} while (number != 0);
-		
-		return res;
-	}
-	
 	private String generateKey(int length) {
 		char[] charArray = new char[length];
 		boolean[] helper = new boolean[MAX_CODE - MIN_CODE + 1];
@@ -66,7 +55,7 @@ public class BaseCipher {
 		
 		return String.valueOf(charArray);
 	}
-
+	
 	private int generateUniqueRandomNumber(boolean[] helper) {
 		Random random = new Random();
 		int num;
@@ -75,5 +64,16 @@ public class BaseCipher {
 		} while (helper[num - MIN_CODE]);
 		
 		return num;
+	}
+	
+	private int getNumberLength(int number) {
+		int keyLength = key.length();
+		int res = 0;
+		do {
+			number /= keyLength;
+			res++;
+		} while (number != 0);
+		
+		return res;
 	}
 }
