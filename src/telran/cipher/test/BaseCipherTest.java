@@ -32,7 +32,7 @@ class BaseCipherTest {
 		String numberEncoded = cipher.cipher(number);
 		assertEquals(number, cipher.decipher(numberEncoded));
 		
-		// test min/max length
+		// test min/max key length
 		BaseCipher cipher1 = new BaseCipher(1000);
 		assertEquals(94, cipher1.getKey().length());
 		BaseCipher cipher2 = new BaseCipher(0);
