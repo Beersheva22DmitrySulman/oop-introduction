@@ -24,16 +24,16 @@ public class Canvas extends Shape {
 	private String[] presentationVertical(int offset) {
 		String[] res = new String[height];
 		shapes[0].setWidth(width);
-		String[] lines = shapes[0].presentation(offset);
-		System.arraycopy(lines, 0, res, 0, lines.length);
-		int position = lines.length;
+		String[] shapeLines = shapes[0].presentation(offset);
+		System.arraycopy(shapeLines, 0, res, 0, shapeLines.length);
+		int position = shapeLines.length;
 		for (int i = 1; i < shapes.length; i++) {
 			fillEmptyLines(res, position, position + margin, width + offset);
 			position += margin;
 			shapes[i].setWidth(width);
-			lines = shapes[i].presentation(offset);
-			System.arraycopy(lines, 0, res, position, lines.length);
-			position += lines.length;
+			shapeLines = shapes[i].presentation(offset);
+			System.arraycopy(shapeLines, 0, res, position, shapeLines.length);
+			position += shapeLines.length;
 		}
 		fillEmptyLines(res, position, height, width + offset);
 		return res;
