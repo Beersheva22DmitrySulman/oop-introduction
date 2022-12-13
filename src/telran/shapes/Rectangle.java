@@ -1,16 +1,10 @@
 package telran.shapes;
 
-public class Rectangle {
-	public static final String SYMBOL = "*";
+public class Rectangle extends Shape {
+
 	
-	private static String symbol = SYMBOL;
-	
-	private int width;
-	private int height;
-	
-	public Rectangle (int width, int height) {
-		this.width = width;
-		this.height = height;
+	public Rectangle(int width, int height) {
+		super(width, height);
 	}
 	
 	public String[] presentation(int offset) {
@@ -31,32 +25,5 @@ public class Rectangle {
 
 	protected String getLine(int offset) {
 		return getOffset(offset) + symbol.repeat(width);
-	}
-
-	protected String getOffset(int offset) {
-		return " ".repeat(offset);
-	}
-
-	public int getWidth() {
-		return width;
-	}
-
-	public void setWidth(int width) {
-		this.width = width;
-	}
-	
-	public int getHeight() {
-		return height;
-	}
-	public void setHeight(int height) {
-		this.height = height;
-	}
-
-	public static String getSymbol() {
-		return symbol;
-	}
-
-	public static void setSymbol(String symbol) {
-		Rectangle.symbol = symbol;
 	}
 }
