@@ -57,7 +57,7 @@ class ShapeTest {
 
 		Shape[] shapes = { rectangle, square, squareLeftTriangle, squareRightTriangle };
 
-		Canvas canvas = new Canvas(10, 41, shapes);
+		Canvas canvas = new Canvas(10, 21, shapes);
 		canvas.setDirection("column");
 		canvas.setMargin(1);
 		displayStrings(canvas.presentation(5));

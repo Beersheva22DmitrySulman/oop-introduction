@@ -22,7 +22,8 @@ public class Canvas extends Shape {
 	}
 
 	private String[] presentationVertical(int offset) {
-		String[] res = new String[height];
+		int canvasHeight = getCanvasHeight();
+		String[] res = new String[canvasHeight];
 		shapes[0].setWidth(width);
 		String[] shapeLines = shapes[0].presentation(offset);
 		System.arraycopy(shapeLines, 0, res, 0, shapeLines.length);
@@ -36,6 +37,14 @@ public class Canvas extends Shape {
 			position += shapeLines.length;
 		}
 		fillEmptyLines(res, position, height, width + offset);
+		return res;
+	}
+
+	private int getCanvasHeight() {
+		int res = margin * (shapes.length - 1);
+		for (Shape shape : shapes) {
+			res += shape.getHeight();
+		}
 		return res;
 	}
 
