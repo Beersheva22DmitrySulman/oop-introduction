@@ -24,25 +24,24 @@ public class Canvas extends Shape {
 	private String[] presentationVertical(int offset) {
 		int canvasHeight = getCanvasHeight();
 		String[] res = new String[canvasHeight];
-		shapes[0].setWidth(width);
 		String[] shapeLines = shapes[0].presentation(offset);
 		System.arraycopy(shapeLines, 0, res, 0, shapeLines.length);
 		int position = shapeLines.length;
 		for (int i = 1; i < shapes.length; i++) {
 			fillEmptyLines(res, position, position + margin, width + offset);
 			position += margin;
-			shapes[i].setWidth(width);
 			shapeLines = shapes[i].presentation(offset);
 			System.arraycopy(shapeLines, 0, res, position, shapeLines.length);
 			position += shapeLines.length;
 		}
-		fillEmptyLines(res, position, height, width + offset);
+		fillEmptyLines(res, position, canvasHeight, width + offset);
 		return res;
 	}
 
 	private int getCanvasHeight() {
 		int res = margin * (shapes.length - 1);
 		for (Shape shape : shapes) {
+			shape.setWidth(width);
 			res += shape.getHeight();
 		}
 		return res;
