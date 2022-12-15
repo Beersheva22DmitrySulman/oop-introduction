@@ -1,5 +1,9 @@
 package telran.shapes;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Canvas extends Shape {
 	private String direction = "row";
 	private int margin = 5;
@@ -22,34 +26,24 @@ public class Canvas extends Shape {
 	}
 
 	private String[] presentationVertical(int offset) {
-		int canvasHeight = getCanvasHeight();
-		String[] res = new String[canvasHeight];
-		String[] shapeLines = shapes[0].presentation(offset);
-		System.arraycopy(shapeLines, 0, res, 0, shapeLines.length);
-		int position = shapeLines.length;
+		List<String> lines = new ArrayList<>();
+		lines.addAll(List.of(shapes[0].presentation(offset)));
 		for (int i = 1; i < shapes.length; i++) {
-			fillEmptyLines(res, position, position + margin, width + offset);
-			position += margin;
-			shapeLines = shapes[i].presentation(offset);
-			System.arraycopy(shapeLines, 0, res, position, shapeLines.length);
-			position += shapeLines.length;
+			fillEmptyLines(lines, margin, width + offset);
+			if (shapes[i] instanceof Canvas) {
+				((Canvas) shapes[i]).setDirection("column");
+			}
+			shapes[i].setWidth(width);
+			lines.addAll(List.of(shapes[i].presentation(offset)));
 		}
-		fillEmptyLines(res, position, canvasHeight, width + offset);
-		return res;
+		fillEmptyLines(lines, height - lines.size(), width + offset);
+		
+		return lines.toArray(new String[0]);
 	}
 
-	private int getCanvasHeight() {
-		int res = margin * (shapes.length - 1);
-		for (Shape shape : shapes) {
-			shape.setWidth(width);
-			res += shape.getHeight();
-		}
-		return res;
-	}
-
-	private void fillEmptyLines(String[] res, int start, int end, int widthToFill) {
-		for (int i = start; i < end; i++) {
-			res[i] = getOffset(widthToFill);
+	private void fillEmptyLines(List<String> lines, int length, int widthToFill) {
+		for (int i = 0; i < length; i++) {
+			lines.add(getOffset(widthToFill));
 		}
 	}
 

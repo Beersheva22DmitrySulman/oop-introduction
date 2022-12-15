@@ -8,6 +8,11 @@ import org.junit.jupiter.api.Test;
 import telran.shapes.*;
 
 class ShapeTest {
+	
+	Canvas canvas = new Canvas(10, 20,
+			new Shape[] { new Rectangle(10, 3), new Square(10), new SquareLeftTriangle(10) });
+	Shape[] shapes = { new Rectangle(10, 3), new Square(10), new SquareLeftTriangle(10), new SquareRightTriangle(10),
+			canvas, new Square(10) };
 
 	@Test
 	@Disabled
@@ -49,6 +54,7 @@ class ShapeTest {
 	}
 
 	@Test
+	@Disabled
 	void canvasTest() {
 		Rectangle rectangle = new Rectangle(50, 8);
 		Square square = new Square(12);
@@ -57,7 +63,7 @@ class ShapeTest {
 
 		Shape[] shapes = { rectangle, square, squareLeftTriangle, squareRightTriangle };
 
-		Canvas canvas = new Canvas(10, 21, shapes);
+		Canvas canvas = new Canvas(10, 50, shapes);
 		canvas.setDirection("column");
 		canvas.setMargin(1);
 		displayStrings(canvas.presentation(5));
@@ -66,6 +72,24 @@ class ShapeTest {
 		canvas.setDirection("row");
 		canvas.setMargin(5);
 		displayStrings(canvas.presentation(0));
+	}
+	
+	@Test
+	void canvasInRowTest() {
+		Canvas canvas = new Canvas(10, 4, shapes);
+		canvas.setMargin(3);
+		displayStrings(canvas.presentation(2));
+
+	}
+
+	@Test
+	void canvasInColumnTest() {
+		Canvas canvas = new Canvas(10, 4, shapes);
+		canvas.setDirection("column");
+		this.canvas.setDirection("column");
+		canvas.setMargin(1);
+		displayStrings(canvas.presentation(2));
+
 	}
 
 	private void displayStrings(String[] lines) {
