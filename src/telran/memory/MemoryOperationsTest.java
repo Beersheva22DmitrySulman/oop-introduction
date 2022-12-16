@@ -19,6 +19,7 @@ class MemoryOperationsTest {
 		} catch (Throwable e) {
 			flException = true;
 		}
+		System.out.println(maxMemory);
 		assertTrue(flException);
 	}
 
