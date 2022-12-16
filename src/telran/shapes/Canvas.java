@@ -26,18 +26,21 @@ public class Canvas extends Shape {
 
 	private String[] presentationVertical(int offset) {
 		List<String> lines = new ArrayList<>();
-		lines.addAll(List.of(shapes[0].presentation(offset)));
+		lines.addAll(getLinesVertical(shapes[0], offset));
 		for (int i = 1; i < shapes.length; i++) {
 			fillEmptyLines(lines, margin, width + offset);
-			if (shapes[i] instanceof Canvas) {
-				((Canvas) shapes[i]).setDirection("column");
-			}
-			shapes[i].setWidth(width);
-			lines.addAll(List.of(shapes[i].presentation(offset)));
+			lines.addAll(getLinesVertical(shapes[i], offset));
 		}
 		fillEmptyLines(lines, height - lines.size(), width + offset);
-		
 		return lines.toArray(new String[0]);
+	}
+
+	private List<String> getLinesVertical(Shape shape, int offset) {
+		if (shape instanceof Canvas) {
+			((Canvas) shape).setDirection("column");
+		}
+		shape.setWidth(width);
+		return List.of(shape.presentation(offset));
 	}
 
 	private void fillEmptyLines(List<String> lines, int length, int widthToFill) {
@@ -47,16 +50,22 @@ public class Canvas extends Shape {
 	}
 
 	private String[] presentationHorizontal(int offset) {
-		shapes[0].setHeight(height);
-		String[] res = shapes[0].presentation(offset);
+		String[] res = getLinesHorizontal(shapes[0], offset);
 		for (int i = 1; i < shapes.length; i++) {
-			shapes[i].setHeight(height);
-			String[] shapeLines = shapes[i].presentation(margin);
+			String[] shapeLines = getLinesHorizontal(shapes[i], margin);
 			for (int j = 0; j < height; j++) {
 				res[j] += shapeLines[j];
 			}
 		}
 		return res;
+	}
+
+	private String[] getLinesHorizontal(Shape shape, int offset) {
+		if (shape instanceof Canvas) {
+			((Canvas) shape).setDirection("row");
+		}
+		shape.setHeight(height);
+		return shape.presentation(offset);
 	}
 
 	public String getDirection() {
