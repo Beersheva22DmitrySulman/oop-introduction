@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import telran.shapes.*;
 
 class ShapeTest {
-	
+
 	Canvas canvas = new Canvas(10, 20,
 			new Shape[] { new Rectangle(10, 3), new Square(10), new SquareLeftTriangle(10) });
 	Shape[] shapes = { new Rectangle(10, 3), new Square(10), new SquareLeftTriangle(10), new SquareRightTriangle(10),
@@ -67,13 +67,13 @@ class ShapeTest {
 		canvas.setDirection("column");
 		canvas.setMargin(1);
 		displayStrings(canvas.presentation(5));
-		
+
 		canvas.setHeight(10);
 		canvas.setDirection("row");
 		canvas.setMargin(5);
 		displayStrings(canvas.presentation(0));
 	}
-	
+
 	@Test
 	void canvasInRowTest() {
 		Canvas canvas = new Canvas(10, 4, shapes);
@@ -85,11 +85,35 @@ class ShapeTest {
 	@Test
 	void canvasInColumnTest() {
 		Canvas canvas = new Canvas(10, 4, shapes);
-		canvas.setDirection("column");
-		this.canvas.setDirection("column");
 		canvas.setMargin(1);
+		canvas.setDirection("column");
 		displayStrings(canvas.presentation(2));
 
+	}
+
+	@Test
+	void canvasTest1() {
+		Rectangle rectangle = new Rectangle(50, 8);
+		Square square = new Square(12);
+		SquareLeftTriangle squareLeftTriangle = new SquareLeftTriangle(23);
+		SquareRightTriangle squareRightTriangle = new SquareRightTriangle(70);
+		Shape[] triangles = { squareLeftTriangle, squareRightTriangle };
+		Canvas triangleCanvas = new Canvas(15, 16, triangles);
+		triangleCanvas.setMargin(1);
+
+		Shape[] shapes = { rectangle, square, triangleCanvas };
+
+		Canvas canvas = new Canvas(10, 21, shapes);
+
+		canvas.setHeight(13);
+		canvas.setMargin(4);
+		canvas.setDirection("row");
+		displayStrings(canvas.presentation(12));
+
+		canvas.setWidth(7);
+		canvas.setMargin(2);
+		canvas.setDirection("column");
+		displayStrings(canvas.presentation(12));
 	}
 
 	private void displayStrings(String[] lines) {

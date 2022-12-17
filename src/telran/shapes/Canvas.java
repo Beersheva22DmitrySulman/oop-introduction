@@ -1,16 +1,14 @@
 package telran.shapes;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Canvas extends Shape {
-	private String direction = "row";
+	private String direction;
 	private int margin = 5;
 	private Shape[] shapes;
 
 	public Canvas(int width, int height, Shape[] shapes) {
 		super(width, height);
 		this.shapes = shapes;
+		setDirection("row");
 	}
 
 	@Override
@@ -25,47 +23,37 @@ public class Canvas extends Shape {
 	}
 
 	private String[] presentationVertical(int offset) {
-		List<String> lines = new ArrayList<>();
-		lines.addAll(getLinesVertical(shapes[0], offset));
+		String[] lines = new String[height];
+		int position = 0;
+		String[] shapeLines = shapes[0].presentation(offset);
+		System.arraycopy(shapeLines, 0, lines, 0, shapeLines.length);
+		position += shapeLines.length;
 		for (int i = 1; i < shapes.length; i++) {
-			fillEmptyLines(lines, margin, width + offset);
-			lines.addAll(getLinesVertical(shapes[i], offset));
+			fillEmptyLines(lines, position, position + margin, width + offset);
+			position += margin;
+			shapeLines = shapes[i].presentation(offset);
+			System.arraycopy(shapeLines, 0, lines, position, shapeLines.length);
+			position += shapeLines.length;
 		}
-		fillEmptyLines(lines, height - lines.size(), width + offset);
-		return lines.toArray(new String[0]);
+		fillEmptyLines(lines, position, height, width + offset);
+		return lines;
 	}
 
-	private List<String> getLinesVertical(Shape shape, int offset) {
-		if (shape instanceof Canvas) {
-			((Canvas) shape).setDirection("column");
-		}
-		shape.setWidth(width);
-		return List.of(shape.presentation(offset));
-	}
-
-	private void fillEmptyLines(List<String> lines, int length, int widthToFill) {
-		for (int i = 0; i < length; i++) {
-			lines.add(getOffset(widthToFill));
+	private void fillEmptyLines(String[] lines, int start, int end, int widthToFill) {
+		for (int i = start; i < end; i++) {
+			lines[i] = getOffset(widthToFill);
 		}
 	}
 
 	private String[] presentationHorizontal(int offset) {
-		String[] res = getLinesHorizontal(shapes[0], offset);
+		String[] res = shapes[0].presentation(offset);
 		for (int i = 1; i < shapes.length; i++) {
-			String[] shapeLines = getLinesHorizontal(shapes[i], margin);
+			String[] shapeLines = shapes[i].presentation(margin);
 			for (int j = 0; j < height; j++) {
 				res[j] += shapeLines[j];
 			}
 		}
 		return res;
-	}
-
-	private String[] getLinesHorizontal(Shape shape, int offset) {
-		if (shape instanceof Canvas) {
-			((Canvas) shape).setDirection("row");
-		}
-		shape.setHeight(height);
-		return shape.presentation(offset);
 	}
 
 	public String getDirection() {
@@ -74,6 +62,22 @@ public class Canvas extends Shape {
 
 	public void setDirection(String direction) {
 		this.direction = direction;
+		int newHeight = 0;
+		for (Shape shape : shapes) {
+			if ("row".equals(direction)) {
+				shape.setHeight(height);
+			} else if ("column".equals(direction)) {
+				shape.setWidth(width);
+			}
+			if (shape instanceof Canvas) {
+				((Canvas) shape).setDirection(direction);
+			}
+			newHeight += shape.getHeight();
+		}
+		if ("column".equals(direction)) {
+			newHeight += margin * (shapes.length - 1);
+			height = Math.max(height, newHeight);
+		}
 	}
 
 	public int getMargin() {
