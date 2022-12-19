@@ -34,6 +34,8 @@ class MyArraysTest {
 		assertEquals(-5, MyArrays.binarySearch(nums2, 5, Integer::compare));
 		
 		assertEquals(-10, MyArrays.binarySearch(nums2, 100, Integer::compare));
+		
+		assertEquals(-1, MyArrays.binarySearch(nums2, 0, Integer::compare));
 	}
 
 }
