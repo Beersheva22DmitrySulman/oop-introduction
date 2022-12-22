@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.Comparator;
 import java.util.function.Predicate;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import telran.util.EvenOddComparator;
@@ -15,6 +16,7 @@ class MyArraysTest {
 	String[] strings = { "ab", "abm", "abmb", "abmbc" };
 
 	@Test
+	@Disabled
 	void sortTest() {
 		String[] strings = { "abcd", "lmn", "zz" };
 		String[] expected = { "zz", "lmn", "abcd" };
@@ -23,6 +25,7 @@ class MyArraysTest {
 	}
 
 	@Test
+	@Disabled
 	void evenOddTest() {
 		Integer[] expected = { -8, 2, 10, 100, 47, 13, 7 };
 		MyArrays.sort(numbers, new EvenOddComparator());
@@ -35,6 +38,7 @@ class MyArraysTest {
 	}
 
 	@Test
+	@Disabled
 	void binarySearchTest() {
 		Integer[] nums1 = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 		assertEquals(4, MyArrays.binarySearch(nums1, 5, Integer::compare));
