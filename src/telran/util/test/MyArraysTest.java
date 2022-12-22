@@ -52,6 +52,7 @@ class MyArraysTest {
 	}
 
 	@Test
+	@Disabled
 	void filterTest() {
 		int divider = 2;
 		String subStr = "m";
@@ -63,6 +64,15 @@ class MyArraysTest {
 		
 		assertArrayEquals(expectedNumbers, MyArrays.filter(numbers, predEven));
 		assertArrayEquals(expectedStr, MyArrays.filter(strings, predSubstr));
+	}
+	
+	@Test
+	void removeIfTest() {
+		Integer[] expectedNumbers = { 13, 47, -7, 7 };
+		String[] expectedStr = { "ab" };
+		
+		assertArrayEquals(expectedNumbers, MyArrays.removeIf(numbers, x -> x % 2 == 0));
+		assertArrayEquals(expectedStr, MyArrays.removeIf(strings, x -> x.contains("m")));
 	}
 
 }

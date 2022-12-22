@@ -65,4 +65,16 @@ public class MyArrays {
 		}
 		return res;
 	}
+	
+	public static <T> T[] removeIf(T[] objects, Predicate<T> predicate) {
+		return filter(objects, element -> !predicate.test(element));
+	}
+	
+	public static <T> T[] removeRepeated(T[] objects) {
+		return null;
+	}
+	
+	public static <T> boolean contains(T[] objects, T key) {
+		return false;
+	}
 }
