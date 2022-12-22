@@ -2,7 +2,7 @@ package telran.util;
 
 import java.util.Comparator;
 
-public class IntSortComparator implements Comparator<Integer> {
+public class EvenOddComparator implements Comparator<Integer> {
 
 	@Override
 	public int compare(Integer n1, Integer n2) {
