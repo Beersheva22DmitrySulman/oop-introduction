@@ -71,10 +71,25 @@ public class MyArrays {
 	}
 	
 	public static <T> T[] removeRepeated(T[] objects) {
-		return null;
+		T[] res = Arrays.copyOf(objects, objects.length);
+		int index = 0;
+		while (objects.length > 0) {
+			T nextVal = objects[0]; 
+			res[index++] = nextVal;
+			objects = removeIf(Arrays.copyOfRange(objects, 1, objects.length), 
+					x -> x.equals(nextVal));
+		}
+		return Arrays.copyOf(res, index);
 	}
 	
 	public static <T> boolean contains(T[] objects, T key) {
-		return false;
+		boolean res = false;
+		int index = 0;
+		while(index < objects.length && !res) {
+			if (objects[index++].equals(key)) {
+				res = true;
+			}
+		}
+		return res;
 	}
 }

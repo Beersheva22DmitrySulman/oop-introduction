@@ -74,5 +74,27 @@ class MyArraysTest {
 		assertArrayEquals(expectedNumbers, MyArrays.removeIf(numbers, x -> x % 2 == 0));
 		assertArrayEquals(expectedStr, MyArrays.removeIf(strings, x -> x.contains("m")));
 	}
+	
+	@Test
+	void removeRepeatedTest() {
+		Integer[] nums1 = { 0, 1, 1, 2, 2, 1, 1, 3, 3, -10, 15, 1, 22, 23, 15, 7, 8, 0};
+		Integer[] expectedNums1 = { 0, 1, 2, 3, -10, 15, 22, 23, 7, 8 };
+		
+		Integer[] nums2  = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+		Integer[] expectedNums2 = { 1 };
+		
+		assertArrayEquals(expectedNums1, MyArrays.removeRepeated(nums1));
+		assertArrayEquals(expectedNums2, MyArrays.removeRepeated(nums2));
+		
+	}
+	
+	@Test
+	void containsTest() {
+		assertTrue(MyArrays.contains(numbers, 47));
+		assertFalse(MyArrays.contains(numbers, 48));
+		
+		assertTrue(MyArrays.contains(strings, "ab"));
+		assertFalse(MyArrays.contains(strings, "abc"));
+	}
 
 }
