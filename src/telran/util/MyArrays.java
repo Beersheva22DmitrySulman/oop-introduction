@@ -1,6 +1,8 @@
 package telran.util;
 
+import java.util.Arrays;
 import java.util.Comparator;
+import java.util.function.Predicate;
 
 public class MyArrays {
 	public static <T> void sort(T[] objects, Comparator<T> comparator) {
@@ -39,6 +41,28 @@ public class MyArrays {
 			}
 			middle = left + (right - left) / 2;
 		}
-		return middle < objects.length && comparator.compare(key, objects[middle]) == 0 ? middle : -1 - left;
+		return left <= right ? middle : -1 - left;
+	}
+
+	public static <T> T[] filter(T[] objects, Predicate<T> predicate) {
+		int countPredicate = getCountPredicate(objects, predicate);
+		T[] res = Arrays.copyOf(objects, countPredicate);
+		int index = 0;
+		for (T element : objects) {
+			if (predicate.test(element)) {
+				res[index++] = element;
+			}
+		}
+		return res;
+	}
+
+	private static <T> int getCountPredicate(T[] objects, Predicate<T> predicate) {
+		int res = 0;
+		for (T element : objects) {
+			if (predicate.test(element)) {
+				res++;
+			}
+		}
+		return res;
 	}
 }

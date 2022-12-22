@@ -3,6 +3,7 @@ package telran.util.test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Comparator;
+import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
 
@@ -10,6 +11,8 @@ import telran.util.EvenOddComparator;
 import telran.util.MyArrays;
 
 class MyArraysTest {
+	Integer[] numbers = { 13, 2, -8, 47, 100, 10, -7, 7 };
+	String[] strings = { "ab", "abm", "abmb", "abmbc" };
 
 	@Test
 	void sortTest() {
@@ -21,11 +24,10 @@ class MyArraysTest {
 
 	@Test
 	void evenOddTest() {
-		Integer numbers[] = { 13, 2, -8, 47, 100, 10, 7 };
-		Integer expected[] = { -8, 2, 10, 100, 47, 13, 7 };
+		Integer[] expected = { -8, 2, 10, 100, 47, 13, 7 };
 		MyArrays.sort(numbers, new EvenOddComparator());
 		assertArrayEquals(expected, numbers);
-		
+
 		Integer[] nums = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 		Integer[] numsExpected = { 2, 4, 6, 8, 10, 9, 7, 5, 3, 1 };
 		MyArrays.sort(nums, new EvenOddComparator());
@@ -43,6 +45,20 @@ class MyArraysTest {
 		assertEquals(-10, MyArrays.binarySearch(nums2, 100, Integer::compare));
 
 		assertEquals(-1, MyArrays.binarySearch(nums2, 0, Integer::compare));
+	}
+
+	@Test
+	void filterTest() {
+		int divider = 2;
+		String subStr = "m";
+		Predicate<Integer> predEven = new DividerPredicate(divider);
+		Predicate<String> predSubstr = new SubstrPredicate(subStr);
+
+		Integer[] expectedNumbers = { 2, -8, 100, 10 };
+		String[] expectedStr = { "abm", "abmb", "abmbc" };
+		
+		assertArrayEquals(expectedNumbers, MyArrays.filter(numbers, predEven));
+		assertArrayEquals(expectedStr, MyArrays.filter(strings, predSubstr));
 	}
 
 }
