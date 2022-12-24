@@ -8,7 +8,7 @@ public class EvenOddComparator implements Comparator<Integer> {
 	public int compare(Integer n1, Integer n2) {
 		int res = 0;
 		if (n1 % 2 == 1 && n2 % 2 == 1) {
-			res = -Integer.compare(n1, n2);
+			res = Integer.compare(n2, n1);
 		} else if (n1 % 2 == 1) {
 			res = 1;
 		} else if (n2 % 2 == 1) {

@@ -67,28 +67,29 @@ public class MyArrays {
 	}
 	
 	public static <T> T[] removeIf(T[] objects, Predicate<T> predicate) {
-		return filter(objects, element -> !predicate.test(element));
+		return filter(objects, predicate.negate());
 	}
 	
 	public static <T> T[] removeRepeated(T[] objects) {
 		T[] res = Arrays.copyOf(objects, objects.length);
+		Arrays.fill(res, null);
 		int index = 0;
-		while (objects.length > 0) {
-			T nextVal = objects[0]; 
-			res[index++] = nextVal;
-			objects = removeIf(Arrays.copyOfRange(objects, 1, objects.length), 
-					x -> x.equals(nextVal));
+		for (int i = 0; i < objects.length; i++) {
+			if (!contains(res, objects[i])) {				
+				res[index++] = objects[i];
+			}
 		}
-		return Arrays.copyOf(res, index);
+		return removeIf(res, x -> x == null);
 	}
 	
 	public static <T> boolean contains(T[] objects, T key) {
 		boolean res = false;
 		int index = 0;
 		while(index < objects.length && !res) {
-			if (objects[index++].equals(key)) {
+			if (key == null && objects[index] == null || key != null && key.equals(objects[index])) {
 				res = true;
 			}
+			index++;
 		}
 		return res;
 	}
