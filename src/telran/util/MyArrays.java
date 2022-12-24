@@ -86,7 +86,8 @@ public class MyArrays {
 		boolean res = false;
 		int index = 0;
 		while(index < objects.length && !res) {
-			if (key == null && objects[index] == null || key != null && key.equals(objects[index])) {
+			if (key == null && objects[index] == null || 
+					key != null && key.equals(objects[index])) {
 				res = true;
 			}
 			index++;
