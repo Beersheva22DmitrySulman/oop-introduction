@@ -85,9 +85,9 @@ class MyArraysTest {
 
 		Integer[] nums3 = { 1, 2, 3, 4, 5, 6 };
 		Integer[] expectedNums3 = { 1, 2, 3, 4, 5, 6 };
-		
-		Integer[] nums4 = {100,10, 18, 10, 20,18};
-		Integer[] expectedNums4 = {100, 10, 18, 20};
+
+		Integer[] nums4 = { 100, 10, 18, 10, 20, 18 };
+		Integer[] expectedNums4 = { 100, 10, 18, 20 };
 
 		assertArrayEquals(expectedNums1, MyArrays.removeRepeated(nums1));
 		assertArrayEquals(expectedNums2, MyArrays.removeRepeated(nums2));
