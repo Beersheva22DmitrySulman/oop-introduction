@@ -1,6 +1,7 @@
 package telran.util;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 public class ArrayList<T> implements List<T> {
@@ -44,7 +45,7 @@ public class ArrayList<T> implements List<T> {
 
 	@Override
 	public boolean removeIf(Predicate<? super T> predicate) {
-		checkOnNull(predicate);
+		Objects.requireNonNull(predicate);
 		boolean res = false;
 		for (int i = 0; i < size; i++) {
 			if (predicate.test(array[i])) {
@@ -53,12 +54,6 @@ public class ArrayList<T> implements List<T> {
 			}
 		}
 		return res;
-	}
-
-	private void checkOnNull(Object object) {
-		if (object == null) {
-			throw new NullPointerException();
-		}
 	}
 
 	@Override
