@@ -86,11 +86,20 @@ public class MyArrays {
 		boolean res = false;
 		int index = 0;
 		while(index < objects.length && !res) {
-			if (key == null && objects[index] == null || 
-					key != null && key.equals(objects[index])) {
-				res = true;
-			}
+			res = key == null ? objects[index] == key :  key.equals(objects[index]);
 			index++;
+		}
+		return res;
+	}
+	
+	public static <T> String join(T[] array, String delimiter) {
+		String res = "";
+		if (array.length > 0) {
+			StringBuilder builder = new StringBuilder(array[0].toString());
+			for (int i = 1; i < array.length; i++) {
+				builder.append(delimiter).append(array[i]);
+			}
+			res = builder.toString();
 		}
 		return res;
 	}
