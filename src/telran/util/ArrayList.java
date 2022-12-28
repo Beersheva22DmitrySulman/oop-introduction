@@ -34,13 +34,11 @@ public class ArrayList<T> implements List<T> {
 
 	@Override
 	public boolean remove(Object pattern) {
-		boolean res = false;
 		int index = indexOf(pattern);
 		if (index != -1) {
 			remove(index);
-			res = true;
 		}
-		return res;
+		return index != -1;
 	}
 
 	@Override
