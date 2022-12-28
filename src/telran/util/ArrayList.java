@@ -46,17 +46,14 @@ public class ArrayList<T> implements List<T> {
 	@Override
 	public boolean removeIf(Predicate<? super T> predicate) {
 		Objects.requireNonNull(predicate);
-		int[] indexesToRemove = new int[size];
-		int index = 0;
-		for (int i = 0; i < size; i++) {
+		boolean res = false;
+		for (int i = size - 1; i >= 0; i--) {
 			if (predicate.test(array[i])) {
-				indexesToRemove[index++] = i;
+				remove(i);
+				res = true;
 			}
 		}
-		for (int i = index - 1; i >= 0; i--) {
-			remove(indexesToRemove[i]);
-		}
-		return index != 0;
+		return res;
 	}
 
 	@Override
