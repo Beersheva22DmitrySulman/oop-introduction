@@ -53,7 +53,7 @@ public class ArrayList<T> implements List<T> {
 				size--;
 				array[i] = null;
 			} else {
-				if (indexToCopy< i) {
+				if (indexToCopy < i) {
 					array[indexToCopy] = array[i];
 					array[i] = null;
 				}
@@ -81,7 +81,7 @@ public class ArrayList<T> implements List<T> {
 	@Override
 	public T[] toArray(T[] ar) {
 		if (ar.length < size) {
-			ar = Arrays.copyOf(ar, size);	
+			ar = Arrays.copyOf(ar, size);
 		}
 		System.arraycopy(array, 0, ar, 0, size);
 		Arrays.fill(ar, size, ar.length, null);
@@ -158,7 +158,7 @@ public class ArrayList<T> implements List<T> {
 
 	private class ArrayListIterator implements Iterator<T> {
 		int current = 0;
-		
+
 		@Override
 		public boolean hasNext() {
 			return current < size;
@@ -169,9 +169,9 @@ public class ArrayList<T> implements List<T> {
 			if (!hasNext()) {
 				throw new NoSuchElementException();
 			}
-			
+
 			return array[current++];
 		}
-		
+
 	}
 }
