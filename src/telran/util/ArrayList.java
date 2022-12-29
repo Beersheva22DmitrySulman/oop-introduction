@@ -1,6 +1,8 @@
 package telran.util;
 
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.function.Predicate;
 
@@ -44,14 +46,21 @@ public class ArrayList<T> implements List<T> {
 	@Override
 	public boolean removeIf(Predicate<? super T> predicate) {
 		Objects.requireNonNull(predicate);
-		boolean res = false;
-		for (int i = size - 1; i >= 0; i--) {
+		int oldSize = size;
+		int index = 0;
+		for (int i = 0; i < oldSize; i++) {
 			if (predicate.test(array[i])) {
-				remove(i);
-				res = true;
+				size--;
+				array[i] = null;
+			} else {
+				if (index < i) {
+					array[index] = array[i];
+					array[i] = null;
+				}
+				index++;
 			}
 		}
-		return res;
+		return size != oldSize;
 	}
 
 	@Override
@@ -75,14 +84,8 @@ public class ArrayList<T> implements List<T> {
 			ar = Arrays.copyOf(ar, size);	
 		}
 		System.arraycopy(array, 0, ar, 0, size);
-		fillWithNulls(ar);
+		Arrays.fill(ar, size, ar.length, null);
 		return ar;
-	}
-
-	private void fillWithNulls(T[] ar) {
-		for (int i = size; i < ar.length; i++) {
-			ar[i] = null;
-		}	
 	}
 
 	@Override
@@ -99,8 +102,9 @@ public class ArrayList<T> implements List<T> {
 	@Override
 	public T remove(int index) {
 		T res = get(index);
-		System.arraycopy(array, index + 1, array, index, size - index - 1);
 		size--;
+		System.arraycopy(array, index + 1, array, index, size - index);
+		array[size] = null;
 		return res;
 	}
 
@@ -147,4 +151,27 @@ public class ArrayList<T> implements List<T> {
 		return res;
 	}
 
+	@Override
+	public Iterator<T> iterator() {
+		return new ArrayListIterator();
+	}
+
+	private class ArrayListIterator implements Iterator<T> {
+		int current = 0;
+		
+		@Override
+		public boolean hasNext() {
+			return current < size;
+		}
+
+		@Override
+		public T next() {
+			if (!hasNext()) {
+				throw new NoSuchElementException();
+			}
+			
+			return array[current++];
+		}
+		
+	}
 }
