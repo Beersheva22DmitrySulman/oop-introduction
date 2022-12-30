@@ -103,13 +103,13 @@ public abstract class ListTest extends CollectionTest {
 		Integer[] array = new Integer[numbers.length];
 		int index = 0;
 		Iterator<Integer> iterator = list.iterator();
-		while(iterator.hasNext()) {
+		while (iterator.hasNext()) {
 			array[index++] = iterator.next();
 		}
 
 		assertEquals(list.size(), index);
 		assertArrayEquals(numbers, array);
-		assertThrows(NoSuchElementException.class, () -> iterator.next());
+		assertThrows(NoSuchElementException.class, iterator::next);
 	}
 
 }
