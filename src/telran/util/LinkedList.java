@@ -13,6 +13,12 @@ public class LinkedList<T> implements List<T> {
 	@Override
 	public boolean add(T element) {
 		Node<T> node = new Node<>(element);
+		addTale(node);
+		size++;
+		return true;
+	}
+
+	private void addTale(Node<T> node) {
 		if (head == null) {
 			head = node;
 		} else {
@@ -20,8 +26,6 @@ public class LinkedList<T> implements List<T> {
 			node.prev = tail;
 		}
 		tail = node;
-		size++;
-		return true;
 	}
 
 	@Override
@@ -73,17 +77,18 @@ public class LinkedList<T> implements List<T> {
 	@Override
 	public void add(int index, T element) {
 		checkIndex(index, true);
+		Node<T> node = new Node<>(element);
 		if (index == size) {			
-			add(element);
+			addTale(node);
 		} else if (index == 0) {
-			addHead(element);
+			addHead(node);
 		} else {
-			addMiddle(index, element);
+			addMiddle(index, node);
 		}
+		size++;
 	}
 
-	private void addMiddle(int index, T element) {
-		Node<T> node = new Node<>(element);
+	private void addMiddle(int index, Node<T> node) {
 		Node<T> curNode = getNode(index);
 		Node<T> prevNode = curNode.prev;
 		
@@ -91,7 +96,6 @@ public class LinkedList<T> implements List<T> {
 		node.next = curNode;
 		prevNode.next = node;
 		curNode.prev = node;
-		size++;
 	}
 
 	private Node<T> getNode(int index) {
@@ -114,12 +118,10 @@ public class LinkedList<T> implements List<T> {
 		return result;
 	}
 
-	private void addHead(T element) {
-		Node<T> node = new Node<>(element);
+	private void addHead(Node<T> node) {
 		head.prev = node;
 		node.next = head;
 		head = node;
-		size++;
 	}
 
 	@Override
