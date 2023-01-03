@@ -13,12 +13,12 @@ public class LinkedList<T> implements List<T> {
 	@Override
 	public boolean add(T element) {
 		Node<T> node = new Node<>(element);
-		addTale(node);
+		addTail(node);
 		size++;
 		return true;
 	}
 
-	private void addTale(Node<T> node) {
+	private void addTail(Node<T> node) {
 		if (head == null) {
 			head = node;
 		} else {
@@ -79,7 +79,7 @@ public class LinkedList<T> implements List<T> {
 		checkIndex(index, true);
 		Node<T> node = new Node<>(element);
 		if (index == size) {			
-			addTale(node);
+			addTail(node);
 		} else if (index == 0) {
 			addHead(node);
 		} else {
