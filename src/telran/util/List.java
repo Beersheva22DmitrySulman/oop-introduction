@@ -12,4 +12,19 @@ public interface List<T> extends Collection<T> {
 	T get(int index);
 	
 	T set(int index, T element);
+	
+	default void checkIndex(int index, boolean add) {
+		int rightBound = add ? size() : size() - 1;
+		if (index < 0 || index > rightBound) {
+			throw new IndexOutOfBoundsException();
+		}
+	}
+	
+	default boolean contains(T pattern) {
+		return indexOf(pattern) != -1;
+	}
+	
+	default boolean isEmpty() {
+		return size() == 0;
+	}
 }

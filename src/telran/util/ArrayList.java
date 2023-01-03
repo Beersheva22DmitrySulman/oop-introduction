@@ -51,31 +51,17 @@ public class ArrayList<T> implements List<T> {
 		for (int i = 0; i < oldSize; i++) {
 			if (predicate.test(array[i])) {
 				size--;
-				array[i] = null;
 			} else {
-				if (nextIndex < i) {
-					array[nextIndex] = array[i];
-					array[i] = null;
-				}
-				nextIndex++;
+				array[nextIndex++] = array[i];
 			}
 		}
+		Arrays.fill(array, size, oldSize, null);
 		return size != oldSize;
-	}
-
-	@Override
-	public boolean isEmpty() {
-		return size == 0;
 	}
 
 	@Override
 	public int size() {
 		return size;
-	}
-
-	@Override
-	public boolean contains(T pattern) {
-		return indexOf(pattern) != -1;
 	}
 
 	@Override
@@ -135,13 +121,6 @@ public class ArrayList<T> implements List<T> {
 	public T get(int index) {
 		checkIndex(index, false);
 		return array[index];
-	}
-
-	private void checkIndex(int index, boolean add) {
-		int rightBound = add ? size : size - 1;
-		if (index < 0 || index > rightBound) {
-			throw new IndexOutOfBoundsException();
-		}
 	}
 
 	@Override
