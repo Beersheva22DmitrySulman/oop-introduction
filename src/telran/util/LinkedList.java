@@ -26,11 +26,11 @@ public class LinkedList<T> implements List<T> {
 
 	@Override
 	public boolean remove(Object pattern) {
-		int index = indexOf(pattern);
-		if (index != -1) {
-			remove(index);
+		Node<T> nodeToRemove = getNodeByObject(pattern);
+		if (nodeToRemove != null) {
+			removeInternal(nodeToRemove);
 		}
-		return index != -1;
+		return nodeToRemove != null;
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class LinkedList<T> implements List<T> {
 		for (int i = size - 1; i >= 0; i--) {
 			Node<T> prev = current.prev;
 			if (predicate.test(current.obj)) {
-				remove(i);
+				removeInternal(current);
 			}
 			current = prev;
 		}
@@ -125,53 +125,49 @@ public class LinkedList<T> implements List<T> {
 	@Override
 	public T remove(int index) {
 		checkIndex(index, false);
-		Node<T> nodeToRemove;
-		if (size == 1) {
-			nodeToRemove = removeOne();
-		} else if (index == size - 1) {
-			nodeToRemove = removeLast();
-		} else if (index == 0) {
-			nodeToRemove = removeFirst();
-		} else {
-			nodeToRemove = removeMiddle(index);
-		}
-		size--;
+		Node<T> nodeToRemove = getNode(index);
+		removeInternal(nodeToRemove);
 		
 		return nodeToRemove.obj;
 	}
+	
+	private void removeInternal(Node<T> nodeToRemove) {
+		if (size == 1) {
+			removeSingle();
+		} else if (nodeToRemove == tail) {
+			removeTail();
+		} else if (nodeToRemove == head) {
+			removeHead();
+		} else {
+			removeMiddle(nodeToRemove);
+		}
+		size--;
+	}
 
-	private Node<T> removeMiddle(int index) {
-		Node<T> nodeToRemove = getNode(index);
+	private void removeMiddle(Node<T> nodeToRemove) {
 		Node<T> prevNode = nodeToRemove.prev;
 		Node<T> nextNode = nodeToRemove.next;
 		nodeToRemove.prev = null;
 		nodeToRemove.next = null;
 		prevNode.next = nextNode;
 		nextNode.prev = prevNode;
-		return nodeToRemove;
 	}
 
-	private Node<T> removeFirst() {
-		Node<T> nodeToRemove = head;
+	private void removeHead() {
 		head = head.next;
+		head.prev.next = null;
 		head.prev = null;
-		nodeToRemove.next = null;
-		return nodeToRemove;
 	}
 
-	private Node<T> removeLast() {
-		Node<T> nodeToRemove = tail;
+	private void removeTail() {	
 		tail = tail.prev;
+		tail.next.prev = null;
 		tail.next = null;
-		nodeToRemove.prev = null;
-		return nodeToRemove;
 	}
 
-	private Node<T> removeOne() {
-		Node<T> nodeToRemove = head;
+	private void removeSingle() {
 		head = null;
 		tail = null;
-		return nodeToRemove;
 	}
 
 	@Override
@@ -183,6 +179,14 @@ public class LinkedList<T> implements List<T> {
 			index++;
 		}
 		return index == size ? -1 : index;
+	}
+	
+	private Node<T> getNodeByObject(Object pattern) {
+		Node<T> current = head;
+		while(current != null && !checkEquals(current.obj, pattern)) {
+			current = current.next;
+		}
+		return current;
 	}
 
 	private boolean checkEquals(T currentObj, Object pattern) {
