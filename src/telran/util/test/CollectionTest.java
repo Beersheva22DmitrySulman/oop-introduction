@@ -100,5 +100,16 @@ public abstract class CollectionTest {
 		assertTrue(collection.contains(num));
 		iterator.remove();
 		assertFalse(collection.contains(num));
+		
+		iterator = collection.iterator();
+		iterator.next();
+		iterator.remove();
+		int sizeExpected = collection.size();
+		int index = 0;
+		while(iterator.hasNext()) {
+			num = iterator.next();
+			index++;
+		}
+		assertEquals(sizeExpected, index);
 	}
 }
