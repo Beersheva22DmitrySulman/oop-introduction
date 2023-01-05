@@ -53,7 +53,7 @@ public class LinkedList<T> extends AbstractCollection<T> implements List<T> {
 	private void restoreIsVisited() {
 		Node<T> current = head;
 
-		while (current != null && current.isVisited == true) {
+		while (current.isVisited) {
 			current.isVisited = false;
 			current = current.next;
 		}		
