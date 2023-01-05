@@ -1,13 +1,12 @@
 package telran.util;
 
+import java.util.Iterator;
 import java.util.function.*;
 
 public interface Collection<T> extends Iterable<T> {
 	boolean add(T element);
 
 	boolean remove(Object pattern);
-
-	boolean removeIf(Predicate<? super T> predicate);
 
 	boolean isEmpty();
 
@@ -17,7 +16,15 @@ public interface Collection<T> extends Iterable<T> {
 	
 	T[] toArray(T[] ar);
 	
-	default boolean isEqual(T currentObj, Object pattern) {
-		return currentObj == null ? pattern == null : currentObj.equals(pattern);
+	default boolean removeIf(Predicate<? super T> predicate) {
+		Iterator<T> iterator = iterator();
+		int oldSize = size();
+		while(iterator.hasNext()) {
+			T obj = iterator.next();
+			if (predicate.test(obj)) {
+				iterator.remove();
+			}
+		}
+		return size() != oldSize;
 	}
 }

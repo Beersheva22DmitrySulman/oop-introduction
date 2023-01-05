@@ -5,8 +5,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 
-public class LinkedList<T> implements List<T> {
-	private int size;
+public class LinkedList<T> extends AbstractCollection<T> implements List<T> {
 	private Node<T> head;
 	private Node<T> tail;
 
@@ -26,24 +25,6 @@ public class LinkedList<T> implements List<T> {
 			node.prev = tail;
 		}
 		tail = node;
-	}
-
-	@Override
-	public boolean removeIf(Predicate<? super T> predicate) {
-		int oldSize = size;
-		Node<T> current = head;
-		while (current != null) {
-			if (predicate.test(current.obj)) {
-				removeNode(current);
-			}
-			current = current.next;
-		}
-		return size != oldSize;
-	}
-
-	@Override
-	public int size() {
-		return size;
 	}
 
 	@Override
@@ -207,6 +188,7 @@ public class LinkedList<T> implements List<T> {
 
 	private class LinkedListIterator implements Iterator<T> {
 		Node<T> current = head;
+		boolean flNext = false;
 
 		@Override
 		public boolean hasNext() {
@@ -220,7 +202,18 @@ public class LinkedList<T> implements List<T> {
 			}
 			T res = current.obj;
 			current = current.next;
+			flNext = true;
 			return res;
+		}
+		
+		@Override
+		public void remove() {
+			if (!flNext) {
+				throw new IllegalStateException();
+			}
+			Node<T> removedNode = current == null ? tail : current.prev;
+			removeNode(removedNode);
+			flNext = false;
 		}
 	}
 }

@@ -6,11 +6,10 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.function.Predicate;
 
-public class ArrayList<T> implements List<T> {
+public class ArrayList<T>  extends AbstractCollection<T> implements List<T> {
 
 	private static final int DEFAULT_CAPACITY = 16;
 	private T[] array;
-	private int size;
 
 	@SuppressWarnings("unchecked")
 	public ArrayList(int capacity) {
@@ -48,11 +47,6 @@ public class ArrayList<T> implements List<T> {
 		}
 		Arrays.fill(array, size, oldSize, null);
 		return size != oldSize;
-	}
-
-	@Override
-	public int size() {
-		return size;
 	}
 
 	@Override
