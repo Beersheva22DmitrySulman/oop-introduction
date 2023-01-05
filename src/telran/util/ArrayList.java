@@ -142,6 +142,7 @@ public class ArrayList<T>  extends AbstractCollection<T> implements List<T> {
 			}
 
 			ArrayList.this.remove(current - 1);
+			current--;
 			flNext = false;
 		}
 	}
