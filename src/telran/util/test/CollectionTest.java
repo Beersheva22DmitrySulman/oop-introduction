@@ -4,9 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
+import java.util.Iterator;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -78,5 +80,25 @@ public abstract class CollectionTest {
 		for (int i = numbers.length; i < ar.length; i++) {
 			assertNull(ar[i]);
 		}
+	}
+	
+	@Test
+	void removeIteratorTest() {
+		Iterator<Integer> iterator = collection.iterator();
+		assertThrows(IllegalStateException.class, iterator::remove);
+		Integer num = iterator.next();
+		assertTrue(collection.contains(num));
+		iterator.remove();
+		assertFalse(collection.contains(num));
+		assertEquals(numbers.length - 1, collection.size());
+		assertThrows(IllegalStateException.class, iterator::remove);
+	
+		iterator = collection.iterator();
+		while(iterator.hasNext()) {
+			num = iterator.next();
+		}
+		assertTrue(collection.contains(num));
+		iterator.remove();
+		assertFalse(collection.contains(num));
 	}
 }
