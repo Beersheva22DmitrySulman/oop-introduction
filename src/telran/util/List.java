@@ -27,4 +27,12 @@ public interface List<T> extends Collection<T> {
 	default boolean isEmpty() {
 		return size() == 0;
 	}
+	
+	default boolean remove(Object pattern) {
+		int index = indexOf(pattern);
+		if (index != -1) {
+			remove(index);
+		}
+		return index != -1;
+	}
 }

@@ -35,15 +35,6 @@ public class ArrayList<T> implements List<T> {
 	}
 
 	@Override
-	public boolean remove(Object pattern) {
-		int index = indexOf(pattern);
-		if (index != -1) {
-			remove(index);
-		}
-		return index != -1;
-	}
-
-	@Override
 	public boolean removeIf(Predicate<? super T> predicate) {
 		Objects.requireNonNull(predicate);
 		int oldSize = size;
@@ -97,21 +88,17 @@ public class ArrayList<T> implements List<T> {
 	@Override
 	public int indexOf(Object pattern) {
 		int index = 0;
-		while (index < size && !checkEquals(index, pattern)) {
+		while (index < size && !isEqual(array[index], pattern)) {
 			index++;
 		}
 
 		return index == size ? -1 : index;
 	}
 
-	private boolean checkEquals(int index, Object pattern) {
-		return pattern == null ? array[index] == null : pattern.equals(array[index]);
-	}
-
 	@Override
 	public int lastIndexOf(Object pattern) {
 		int index = size - 1;
-		while (index >= 0 && !checkEquals(index, pattern)) {
+		while (index >= 0 && !isEqual(array[index], pattern)) {
 			index--;
 		}
 		return index;

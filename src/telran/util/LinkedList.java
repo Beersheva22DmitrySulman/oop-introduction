@@ -29,24 +29,14 @@ public class LinkedList<T> implements List<T> {
 	}
 
 	@Override
-	public boolean remove(Object pattern) {
-		Node<T> nodeToRemove = getNodeByObject(pattern);
-		if (nodeToRemove != null) {
-			removeInternal(nodeToRemove);
-		}
-		return nodeToRemove != null;
-	}
-
-	@Override
 	public boolean removeIf(Predicate<? super T> predicate) {
 		int oldSize = size;
-		Node<T> current = tail;
-		for (int i = size - 1; i >= 0; i--) {
-			Node<T> prev = current.prev;
+		Node<T> current = head;
+		while (current != null) {
 			if (predicate.test(current.obj)) {
-				removeInternal(current);
+				removeNode(current);
 			}
-			current = prev;
+			current = current.next;
 		}
 		return size != oldSize;
 	}
@@ -78,7 +68,7 @@ public class LinkedList<T> implements List<T> {
 	public void add(int index, T element) {
 		checkIndex(index, true);
 		Node<T> node = new Node<>(element);
-		if (index == size) {			
+		if (index == size) {
 			addTail(node);
 		} else if (index == 0) {
 			addHead(node);
@@ -91,7 +81,7 @@ public class LinkedList<T> implements List<T> {
 	private void addMiddle(int index, Node<T> node) {
 		Node<T> curNode = getNode(index);
 		Node<T> prevNode = curNode.prev;
-		
+
 		node.prev = prevNode;
 		node.next = curNode;
 		prevNode.next = node;
@@ -128,18 +118,16 @@ public class LinkedList<T> implements List<T> {
 	public T remove(int index) {
 		checkIndex(index, false);
 		Node<T> nodeToRemove = getNode(index);
-		removeInternal(nodeToRemove);
-		
+		removeNode(nodeToRemove);
+
 		return nodeToRemove.obj;
 	}
-	
-	private void removeInternal(Node<T> nodeToRemove) {
-		if (size == 1) {
-			removeSingle();
+
+	private void removeNode(Node<T> nodeToRemove) {
+		if (nodeToRemove == head) {
+			removeHead();
 		} else if (nodeToRemove == tail) {
 			removeTail();
-		} else if (nodeToRemove == head) {
-			removeHead();
 		} else {
 			removeMiddle(nodeToRemove);
 		}
@@ -149,57 +137,43 @@ public class LinkedList<T> implements List<T> {
 	private void removeMiddle(Node<T> nodeToRemove) {
 		Node<T> prevNode = nodeToRemove.prev;
 		Node<T> nextNode = nodeToRemove.next;
-		nodeToRemove.prev = null;
-		nodeToRemove.next = null;
 		prevNode.next = nextNode;
 		nextNode.prev = prevNode;
 	}
 
 	private void removeHead() {
-		head = head.next;
-		head.prev.next = null;
-		head.prev = null;
+		if (size == 1) {
+			head = null;
+			tail = null;
+		} else {
+			Node<T> next = head.next;
+			next.prev = null;
+			head = next;
+		}
 	}
 
-	private void removeTail() {	
-		tail = tail.prev;
-		tail.next.prev = null;
-		tail.next = null;
-	}
-
-	private void removeSingle() {
-		head = null;
-		tail = null;
+	private void removeTail() {
+		Node<T> prev = tail.prev;
+		prev.next = null;
+		tail = prev;
 	}
 
 	@Override
 	public int indexOf(Object pattern) {
 		Node<T> current = head;
 		int index = 0;
-		while(index < size && !checkEquals(current.obj, pattern)) {
+		while (current != null && !isEqual(current.obj, pattern)) {
 			current = current.next;
 			index++;
 		}
-		return index == size ? -1 : index;
-	}
-	
-	private Node<T> getNodeByObject(Object pattern) {
-		Node<T> current = head;
-		while(current != null && !checkEquals(current.obj, pattern)) {
-			current = current.next;
-		}
-		return current;
-	}
-
-	private boolean checkEquals(T currentObj, Object pattern) {
-		return currentObj == null ? pattern == null : currentObj.equals(pattern);
+		return current == null ? -1 : index;
 	}
 
 	@Override
 	public int lastIndexOf(Object pattern) {
 		Node<T> current = tail;
 		int index = size - 1;
-		while(index >= 0 && !checkEquals(current.obj, pattern)) {
+		while (current != null && !isEqual(current.obj, pattern)) {
 			current = current.prev;
 			index--;
 		}
@@ -220,20 +194,20 @@ public class LinkedList<T> implements List<T> {
 		node.obj = element;
 		return res;
 	}
-	
+
 	private static class Node<T> {
 		T obj;
 		Node<T> prev;
 		Node<T> next;
-		
-		Node (T obj) {
+
+		Node(T obj) {
 			this.obj = obj;
 		}
 	}
-	
+
 	private class LinkedListIterator implements Iterator<T> {
 		Node<T> current = head;
-		
+
 		@Override
 		public boolean hasNext() {
 			return current != null;
@@ -248,7 +222,5 @@ public class LinkedList<T> implements List<T> {
 			current = current.next;
 			return res;
 		}
-		
 	}
-
 }
