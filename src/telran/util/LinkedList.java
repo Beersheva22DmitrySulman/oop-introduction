@@ -3,7 +3,6 @@ package telran.util;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.function.Predicate;
 
 public class LinkedList<T> extends AbstractCollection<T> implements List<T> {
 	private Node<T> head;
@@ -25,6 +24,27 @@ public class LinkedList<T> extends AbstractCollection<T> implements List<T> {
 			node.prev = tail;
 		}
 		tail = node;
+	}
+	
+	public void setNext(int index1, int index2) {
+		if (index1 < index2) {
+			throw new IllegalStateException();
+		}
+		getNode(index1).next = getNode(index2);
+	}
+	
+	public boolean hasLoop() {
+		boolean res = false;
+		Node<T> current = head;
+
+		while (current != null && !res) {
+			if (current.isVisited) {
+				res = true;
+			}
+			current.isVisited = true;
+			current = current.next;
+		}
+		return res;
 	}
 
 	@Override
@@ -180,6 +200,7 @@ public class LinkedList<T> extends AbstractCollection<T> implements List<T> {
 		T obj;
 		Node<T> prev;
 		Node<T> next;
+		boolean isVisited;
 
 		Node(T obj) {
 			this.obj = obj;
