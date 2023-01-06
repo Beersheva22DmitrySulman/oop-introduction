@@ -19,10 +19,30 @@ class HasLoopTest extends ListTest {
 	}
 	
 	@Test
-	void hasLoopTest() {
+	void hasLoopTest1() {
 		assertFalse(linkedList.hasLoop());
-		linkedList.setNext(3, 2);
+		linkedList.setNext(5, 2);
 		assertTrue(linkedList.hasLoop());
 	}
 
+	@Test
+	void hasLoopTest2() {
+		assertFalse(linkedList.hasLoop());
+		linkedList.setNext(5, 1);
+		assertTrue(linkedList.hasLoop());
+	}
+	
+	@Test
+	void hasLoopTest3() {
+		assertFalse(linkedList.hasLoop());
+		linkedList.setNext(6, 0);
+		assertTrue(linkedList.hasLoop());
+	}
+	
+	@Test
+	void hasLoopTest4() {
+		assertFalse(linkedList.hasLoop());
+		linkedList.setNext(6, 5);
+		assertTrue(linkedList.hasLoop());
+	}
 }

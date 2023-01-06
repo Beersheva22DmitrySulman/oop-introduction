@@ -26,6 +26,8 @@ public class LinkedList<T> extends AbstractCollection<T> implements List<T> {
 	}
 	
 	public void setNext(int index1, int index2) {
+		checkIndex(index1, false);
+		checkIndex(index2, false);
 		if (index1 < index2) {
 			throw new IllegalStateException();
 		}
@@ -35,27 +37,17 @@ public class LinkedList<T> extends AbstractCollection<T> implements List<T> {
 	public boolean hasLoop() {
 		boolean res = false;
 		Node<T> current = head;
+		Node<T> currentDouble = head;
 
-		while (current != null && !res) {
-			if (current.isVisited) {
+		while (current != null && currentDouble != null && currentDouble.next != null && !res) {
+			current = current.next;
+			currentDouble = currentDouble.next.next;
+			if (current == currentDouble) {
 				res = true;
 			}
-			current.isVisited = true;
-			current = current.next;
 		}
-		if (res) {
-			restoreIsVisited();
-		}
+		
 		return res;
-	}
-	
-	private void restoreIsVisited() {
-		Node<T> current = head;
-
-		while (current.isVisited) {
-			current.isVisited = false;
-			current = current.next;
-		}		
 	}
 
 	@Override
@@ -198,7 +190,6 @@ public class LinkedList<T> extends AbstractCollection<T> implements List<T> {
 		T obj;
 		Node<T> prev;
 		Node<T> next;
-		boolean isVisited;
 
 		Node(T obj) {
 			this.obj = obj;
