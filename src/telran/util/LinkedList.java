@@ -39,7 +39,7 @@ public class LinkedList<T> extends AbstractCollection<T> implements List<T> {
 		Node<T> current = head;
 		Node<T> currentDouble = head;
 
-		while (current != null && currentDouble != null && currentDouble.next != null && !res) {
+		while (currentDouble != null && currentDouble.next != null && !res) {
 			current = current.next;
 			currentDouble = currentDouble.next.next;
 			if (current == currentDouble) {
