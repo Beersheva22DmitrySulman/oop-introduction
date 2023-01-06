@@ -60,19 +60,6 @@ public class LinkedList<T> extends AbstractCollection<T> implements List<T> {
 	}
 
 	@Override
-	public T[] toArray(T[] ar) {
-		if (ar.length < size) {
-			ar = Arrays.copyOf(ar, size);
-		}
-		int index = 0;
-		for (T t : this) {
-			ar[index++] = t;
-		}
-		Arrays.fill(ar, size, ar.length, null);
-		return ar;
-	}
-
-	@Override
 	public Iterator<T> iterator() {
 		return new LinkedListIterator();
 	}
