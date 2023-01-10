@@ -36,7 +36,10 @@ public abstract class CollectionTest {
 	void testRemove() {
 		Integer[] expected = { 10, 100, -5, 280, 120, 15 };
 		assertTrue(collection.remove((Integer) 134));
-		assertArrayEquals(expected, collection.toArray(empty));
+		Arrays.sort(expected);
+		Integer[] actual = collection.toArray(empty);
+		Arrays.sort(actual);
+		assertArrayEquals(expected, actual);
 		assertFalse(collection.remove((Integer) 134));
 	}
 
@@ -44,7 +47,9 @@ public abstract class CollectionTest {
 	void testRemoveIf() {
 		Integer[] expected = { -5, 15 };
 		assertTrue(collection.removeIf(n -> n % 2 == 0));
-		assertArrayEquals(expected, collection.toArray(empty));
+		Integer[] actual = collection.toArray(empty);
+		Arrays.sort(actual);
+		assertArrayEquals(expected, actual);
 		assertFalse(collection.removeIf(n -> n % 2 == 0));
 		assertTrue(collection.removeIf(n -> true));
 		assertTrue(collection.isEmpty());
@@ -74,6 +79,8 @@ public abstract class CollectionTest {
 
 		Arrays.fill(ar, 10);
 		assertTrue(ar == collection.toArray(ar));
+		Arrays.sort(ar, 0, collection.size());
+		Arrays.sort(numbers);
 		for (int i = 0; i < numbers.length; i++) {
 			assertEquals(ar[i], numbers[i]);
 		}
@@ -81,7 +88,7 @@ public abstract class CollectionTest {
 			assertNull(ar[i]);
 		}
 	}
-	
+
 	@Test
 	void removeIteratorTest() {
 		Iterator<Integer> iterator = collection.iterator();
@@ -92,21 +99,21 @@ public abstract class CollectionTest {
 		assertFalse(collection.contains(num));
 		assertEquals(numbers.length - 1, collection.size());
 		assertThrows(IllegalStateException.class, iterator::remove);
-	
+
 		iterator = collection.iterator();
-		while(iterator.hasNext()) {
+		while (iterator.hasNext()) {
 			num = iterator.next();
 		}
 		assertTrue(collection.contains(num));
 		iterator.remove();
 		assertFalse(collection.contains(num));
-		
+
 		iterator = collection.iterator();
 		iterator.next();
 		iterator.remove();
 		int sizeExpected = collection.size();
 		int index = 0;
-		while(iterator.hasNext()) {
+		while (iterator.hasNext()) {
 			num = iterator.next();
 			index++;
 		}
